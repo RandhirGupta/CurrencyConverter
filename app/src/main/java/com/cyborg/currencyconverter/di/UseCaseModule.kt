@@ -1,6 +1,28 @@
 package com.cyborg.currencyconverter.di
 
+import com.cyborg.currencyconverter.data.executor.BaseSchedulerProvider
+import com.cyborg.currencyconverter.data.executor.SchedulerProvider
+import com.cyborg.currencyconverter.data.repository.CurrenciesRepository
+import com.cyborg.currencyconverter.data.usecase.FetchCurrenciesUseCase
 import dagger.Module
+import dagger.Provides
+import javax.inject.Singleton
 
 @Module
-class UseCaseModule
+class UseCaseModule {
+
+    @Singleton
+    @Provides
+    fun provideSchedulerProvider(): BaseSchedulerProvider {
+        return SchedulerProvider()
+    }
+
+    @Singleton
+    @Provides
+    fun provideFetchCurrenciesUseCase(
+        currenciesRepository: CurrenciesRepository,
+        schedulerProvider: BaseSchedulerProvider
+    ): FetchCurrenciesUseCase {
+        return FetchCurrenciesUseCase(currenciesRepository, schedulerProvider)
+    }
+}

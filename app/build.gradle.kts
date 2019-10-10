@@ -29,6 +29,7 @@ dependencies {
 
 
     implementation(CurrencyConverterConfig.Libs.Arch.lifeCycle)
+    implementation(CurrencyConverterConfig.Libs.Arch.lifeCycleReactiveStream)
     implementation(CurrencyConverterConfig.Libs.Arch.room)
 
     implementation(CurrencyConverterConfig.Libs.Rx.rxJava)

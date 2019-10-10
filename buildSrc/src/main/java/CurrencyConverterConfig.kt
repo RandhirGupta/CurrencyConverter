@@ -32,10 +32,13 @@ object CurrencyConverterConfig {
         }
 
         object Arch {
-            private const val lifeCycleVersion = "2.0.0-beta01"
-            private const val roomVersion = "2.0.0-beta01"
+            private const val lifeCycleVersion = "2.0.0"
+            private const val roomVersion = "2.0.0"
 
             const val lifeCycle = "androidx.lifecycle:lifecycle-extensions:$lifeCycleVersion"
+            const val lifeCycleReactiveStream =
+                "android.arch.lifecycle:reactivestreams:$lifeCycleVersion"
+
             const val room = "androidx.room:room-runtime:$roomVersion"
             const val roomCompiler =
                 "androidx.room:room-compiler:$roomVersion"
