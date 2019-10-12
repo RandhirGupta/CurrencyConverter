@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.cyborg.currencyconverter.R
 import com.cyborg.currencyconverter.presentation.base.BaseActivity
 import com.cyborg.currencyconverter.presentation.common.State
+import com.cyborg.currencyconverter.presentation.home.viewmodel.HomeActivityViewModel
 import javax.inject.Inject
 
 class HomeActivity : BaseActivity() {
@@ -30,7 +31,7 @@ class HomeActivity : BaseActivity() {
             when (it) {
                 is State.Loading -> Log.d("NNN", "loading")
                 is State.Error -> Log.d("NNN", "error")
-                is State.Success -> Log.d("NNN", it.data.base)
+                is State.Success -> Log.d("NNN", it.data.rates.toString())
             }
         })
     }

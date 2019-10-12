@@ -1,6 +1,7 @@
 package com.cyborg.currencyconverter
 
 import com.cyborg.currencyconverter.di.ApplicationModule
+import com.cyborg.currencyconverter.di.DatabaseModule
 import com.cyborg.currencyconverter.di.NetworkModule
 import com.cyborg.currencyconverter.di.UseCaseModule
 import com.cyborg.currencyconverter.di.component.DaggerApplicationComponent
@@ -13,6 +14,7 @@ class CurrencyConverterApplication : DaggerApplication() {
         return DaggerApplicationComponent.builder()
             .application(this)
             .applicationModule(ApplicationModule(applicationContext))
+            .databaseModule(DatabaseModule())
             .networkModule(NetworkModule())
             .useCaseModule(UseCaseModule())
             .build()

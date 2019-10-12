@@ -3,6 +3,8 @@ package com.cyborg.currencyconverter.presentation.common
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.LiveDataReactiveStreams
+import com.cyborg.currencyconverter.data.entity.CurrenciesEntity
+import com.cyborg.currencyconverter.data.model.Currencies
 import io.reactivex.Flowable
 import org.reactivestreams.Publisher
 
@@ -21,3 +23,6 @@ fun <T> Flowable<T>.toState(tag: String): Flowable<State<T>> {
             }
     }
 }
+
+fun Currencies.toCurrenciesEntity(): CurrenciesEntity =
+    CurrenciesEntity(base = this.base, date = this.date, rates = this.rates)

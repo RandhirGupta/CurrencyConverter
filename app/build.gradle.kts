@@ -15,6 +15,10 @@ android {
     dataBinding {
         isEnabled = true
     }
+
+    androidExtensions {
+        isExperimental = true
+    }
 }
 
 dependencies {
@@ -31,6 +35,7 @@ dependencies {
     implementation(CurrencyConverterConfig.Libs.Arch.lifeCycle)
     implementation(CurrencyConverterConfig.Libs.Arch.lifeCycleReactiveStream)
     implementation(CurrencyConverterConfig.Libs.Arch.room)
+    implementation(CurrencyConverterConfig.Libs.Arch.roomRxJava)
 
     implementation(CurrencyConverterConfig.Libs.Rx.rxJava)
     implementation(CurrencyConverterConfig.Libs.Rx.rxKotlin)

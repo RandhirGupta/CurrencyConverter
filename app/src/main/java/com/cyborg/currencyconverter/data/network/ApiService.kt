@@ -1,6 +1,6 @@
 package com.cyborg.currencyconverter.data.network
 
-import com.cyborg.currencyconverter.data.entity.Currencies
+import com.cyborg.currencyconverter.data.model.Currencies
 import io.reactivex.Flowable
 import retrofit2.http.GET
 import retrofit2.http.Query

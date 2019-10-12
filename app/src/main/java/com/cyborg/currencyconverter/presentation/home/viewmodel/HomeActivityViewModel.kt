@@ -1,7 +1,7 @@
-package com.cyborg.currencyconverter.presentation.home
+package com.cyborg.currencyconverter.presentation.home.viewmodel
 
 import androidx.lifecycle.LiveData
-import com.cyborg.currencyconverter.data.entity.Currencies
+import com.cyborg.currencyconverter.data.model.Currencies
 import com.cyborg.currencyconverter.data.usecase.FetchCurrenciesUseCase
 import com.cyborg.currencyconverter.presentation.base.BaseViewModel
 import com.cyborg.currencyconverter.presentation.common.State
@@ -13,6 +13,7 @@ class HomeActivityViewModel @Inject constructor(private val fetchCurrenciesUseCa
     BaseViewModel() {
 
     val currencies: LiveData<State<Currencies>> by lazy {
-        fetchCurrenciesUseCase.getAllCurrencies("EUR").toState("Home Activity View Model").toLiveData()
+        fetchCurrenciesUseCase.getCurrenciesFromNetwork("EUR").toState("Home Activity View Model")
+            .toLiveData()
     }
 }

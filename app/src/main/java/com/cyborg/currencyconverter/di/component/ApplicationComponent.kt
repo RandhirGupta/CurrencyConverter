@@ -2,10 +2,7 @@ package com.cyborg.currencyconverter.di.component
 
 import android.app.Application
 import com.cyborg.currencyconverter.CurrencyConverterApplication
-import com.cyborg.currencyconverter.di.ApplicationModule
-import com.cyborg.currencyconverter.di.NetworkModule
-import com.cyborg.currencyconverter.di.RepositoryModule
-import com.cyborg.currencyconverter.di.UseCaseModule
+import com.cyborg.currencyconverter.di.*
 import com.cyborg.currencyconverter.di.builder.ActivityBuilder
 import com.cyborg.currencyconverter.di.module.ViewModelModule
 import dagger.BindsInstance
@@ -18,6 +15,7 @@ import javax.inject.Singleton
 @Component(
     modules = [AndroidSupportInjectionModule::class,
         ApplicationModule::class,
+        DatabaseModule::class,
         NetworkModule::class,
         UseCaseModule::class,
         RepositoryModule::class,
@@ -33,6 +31,7 @@ interface ApplicationComponent : AndroidInjector<CurrencyConverterApplication> {
         fun application(application: Application): Builder
 
         fun applicationModule(applicationModule: ApplicationModule): Builder
+        fun databaseModule(databaseModule: DatabaseModule): Builder
         fun networkModule(networkModule: NetworkModule): Builder
         fun useCaseModule(useCaseModule: UseCaseModule): Builder
         fun repositoryModule(repositoryModule: RepositoryModule): Builder
