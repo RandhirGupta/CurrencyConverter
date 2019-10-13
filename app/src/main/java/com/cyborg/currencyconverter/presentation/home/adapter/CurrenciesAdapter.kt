@@ -1,16 +1,27 @@
 package com.cyborg.currencyconverter.presentation.home.adapter
 
+import android.os.CountDownTimer
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.appcompat.widget.AppCompatEditText
 import androidx.recyclerview.widget.RecyclerView
 import com.cyborg.currencyconverter.databinding.CurrenciesItemLayoutBinding
+import com.cyborg.currencyconverter.presentation.common.getConvertedCurrenciesRates
 import java.util.*
 import kotlin.collections.ArrayList
 
 
-class CurrenciesAdapter : RecyclerView.Adapter<CurrenciesAdapter.CurrenciesViewHolder>() {
+class CurrenciesAdapter :
+    RecyclerView.Adapter<CurrenciesAdapter.CurrenciesViewHolder>() {
 
     private var mCurrenciesList: List<Map.Entry<String, Double>> = ArrayList()
+    private lateinit var mCurrenciesRates: MutableMap<String, Double>
+
+    fun setCurrencyBaseRates(currencyRates: Map<String, Double>) {
+        this.mCurrenciesRates = currencyRates as MutableMap<String, Double>
+    }
 
     fun setCurrencyRates(currencyRates: Map<String, Double>) {
         mCurrenciesList = ArrayList<Map.Entry<String, Double>>(currencyRates.entries)
@@ -28,20 +39,90 @@ class CurrenciesAdapter : RecyclerView.Adapter<CurrenciesAdapter.CurrenciesViewH
     override fun onBindViewHolder(holder: CurrenciesViewHolder, position: Int) {
         val currency = mCurrenciesList[position]
 
-        holder.binding.currencyRatesEt.setText(currency.value.toString())
-        holder.binding.currencyTitleTv.text = currency.key
-        holder.binding.currencyDescTv.text = currency.key
-
-        val drawable = holder.itemView.context.resources.getIdentifier(
-            "flag_" + currency.key.toLowerCase(Locale.ENGLISH),
-            "drawable", holder.itemView.context.packageName
-        )
-
-        holder.binding.countryFlagIv.setImageResource(drawable)
+        holder.bindView(currency)
     }
 
     override fun getItemCount(): Int = mCurrenciesList.size
 
-    class CurrenciesViewHolder(var binding: CurrenciesItemLayoutBinding) :
-        RecyclerView.ViewHolder(binding.root)
+    inner class CurrenciesViewHolder(var binding: CurrenciesItemLayoutBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+
+        private var textChangeWatcher: TextChangeWatcher? = null
+
+        fun bindView(currency: Map.Entry<String, Double>) {
+
+            removeTextWatcher(binding.currencyRatesEt)
+            binding.currencyRatesEt.setText(currency.value.toString())
+            binding.currencyTitleTv.text = currency.key
+            binding.currencyDescTv.text = currency.key
+
+            val drawable = itemView.context.resources.getIdentifier(
+                "flag_" + currency.key.toLowerCase(Locale.ENGLISH),
+                "drawable", itemView.context.packageName
+            )
+
+            binding.countryFlagIv.setImageResource(drawable)
+            addTextWatcher(binding.currencyRatesEt, currency)
+        }
+
+        private fun addTextWatcher(
+            editText: AppCompatEditText,
+            currency: Map.Entry<String, Double>
+        ) {
+            if (textChangeWatcher == null) {
+                textChangeWatcher = TextChangeWatcher(currency)
+            }
+            editText.addTextChangedListener(textChangeWatcher)
+        }
+
+        private fun removeTextWatcher(editText: AppCompatEditText) {
+            if (textChangeWatcher != null) {
+                editText.removeTextChangedListener(textChangeWatcher)
+            }
+        }
+
+        inner class TextChangeWatcher(private val currency: Map.Entry<String, Double>) :
+            TextWatcher {
+
+            private var mCountDownTimer: CountDownTimer? = null
+
+            override fun afterTextChanged(p0: Editable?) {
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                val enteredValue = p0.toString().toDoubleOrNull()
+                enteredValue?.let { startCountDownToConvertCurrency(it) }
+            }
+
+            private fun startCountDownToConvertCurrency(enteredValue: Double) {
+
+                mCountDownTimer?.cancel()
+
+                mCountDownTimer = object : CountDownTimer(500, 100) {
+                    override fun onTick(millisUntilFinished: Long) {}
+
+                    override fun onFinish() {
+                        val baseCurrencyValue = mCurrenciesRates[currency.key]
+                        baseCurrencyValue?.let {
+                            getConvertedCurrenciesRates(
+                                mCurrenciesRates,
+                                enteredValue,
+                                it,
+                                currency.key
+                            )
+                        }?.let {
+                            setCurrencyRates(
+                                it
+                            )
+                        }
+                    }
+                }
+                mCountDownTimer?.start()
+            }
+        }
+    }
 }

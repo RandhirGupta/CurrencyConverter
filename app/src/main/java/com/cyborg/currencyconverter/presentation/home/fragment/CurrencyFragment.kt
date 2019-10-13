@@ -56,6 +56,7 @@ class CurrencyFragment : BaseFragment() {
 
     private fun getCurrenciesFromLocal() {
         mCurrencyViewModel?.currencies?.observe(this, Observer {
+            mCurrenciesAdapter.setCurrencyBaseRates(it.rates)
             mCurrenciesAdapter.setCurrencyRates(it.rates)
         })
     }

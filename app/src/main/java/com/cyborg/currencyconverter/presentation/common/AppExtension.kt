@@ -26,3 +26,31 @@ fun <T> Flowable<T>.toState(tag: String): Flowable<State<T>> {
 
 fun Currencies.toCurrenciesEntity(): CurrenciesEntity =
     CurrenciesEntity(base = this.base, date = this.date, rates = this.rates)
+
+fun getConvertedCurrenciesRates(
+    currencyRates: MutableMap<String, Double>,
+    amountToBeConverted: Double,
+    baseCurrencyValue: Double, baseCurrencyKey: String
+): Map<String, Double> {
+    for ((key, value) in currencyRates) {
+        if (key != baseCurrencyKey) {
+            currencyRates[key] = convertCurrency(baseCurrencyValue, value, amountToBeConverted)
+        }
+    }
+    return currencyRates
+}
+
+fun convertCurrency(
+    baseCurrencyValue: Double,
+    targetCurrencyValue: Double,
+    amountToBeConverted: Double
+): Double {
+    return getExchangeRate(baseCurrencyValue, targetCurrencyValue) * amountToBeConverted
+}
+
+fun getExchangeRate(
+    baseCurrencyValue: Double,
+    targetCurrencyValue: Double
+): Double {
+    return targetCurrencyValue / baseCurrencyValue
+}
