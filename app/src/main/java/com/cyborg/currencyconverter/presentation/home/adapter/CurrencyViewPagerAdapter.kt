@@ -3,6 +3,7 @@ package com.cyborg.currencyconverter.presentation.home.adapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
+import com.cyborg.currencyconverter.presentation.common.CurrencyState
 import com.cyborg.currencyconverter.presentation.home.fragment.CurrencyFragment
 
 class CurrencyViewPagerAdapter(fragmentManager: FragmentManager) :
@@ -14,7 +15,13 @@ class CurrencyViewPagerAdapter(fragmentManager: FragmentManager) :
     }
 
     override fun getItem(position: Int): Fragment {
-        return CurrencyFragment()
+
+        var currencyState: CurrencyState = CurrencyState.RATES
+        when (position) {
+            0 -> currencyState = CurrencyState.RATES
+            1 -> currencyState = CurrencyState.CURRENCY_CONVERSION
+        }
+        return CurrencyFragment.getInstance(currencyState)
     }
 
     override fun getPageTitle(position: Int): CharSequence? {

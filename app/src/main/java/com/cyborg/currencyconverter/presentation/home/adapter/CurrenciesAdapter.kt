@@ -8,12 +8,13 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.recyclerview.widget.RecyclerView
 import com.cyborg.currencyconverter.databinding.CurrenciesItemLayoutBinding
+import com.cyborg.currencyconverter.presentation.common.CurrencyState
 import com.cyborg.currencyconverter.presentation.common.getConvertedCurrenciesRates
 import java.util.*
 import kotlin.collections.ArrayList
 
 
-class CurrenciesAdapter :
+class CurrenciesAdapter(private val currencyState: CurrencyState) :
     RecyclerView.Adapter<CurrenciesAdapter.CurrenciesViewHolder>() {
 
     private var mCurrenciesList: List<Map.Entry<String, Double>> = ArrayList()
@@ -39,7 +40,7 @@ class CurrenciesAdapter :
     override fun onBindViewHolder(holder: CurrenciesViewHolder, position: Int) {
         val currency = mCurrenciesList[position]
 
-        holder.bindView(currency)
+        holder.bindView(currency, currencyState)
     }
 
     override fun getItemCount(): Int = mCurrenciesList.size
@@ -49,9 +50,15 @@ class CurrenciesAdapter :
 
         private var textChangeWatcher: TextChangeWatcher? = null
 
-        fun bindView(currency: Map.Entry<String, Double>) {
+        fun bindView(currency: Map.Entry<String, Double>, currencyState: CurrencyState) {
 
             removeTextWatcher(binding.currencyRatesEt)
+
+            when (currencyState) {
+                CurrencyState.RATES -> binding.currencyRatesEt.isEnabled = false
+                CurrencyState.CURRENCY_CONVERSION -> binding.currencyRatesEt.isEnabled = true
+            }
+
             binding.currencyRatesEt.setText(currency.value.toString())
             binding.currencyTitleTv.text = currency.key
             binding.currencyDescTv.text = currency.key

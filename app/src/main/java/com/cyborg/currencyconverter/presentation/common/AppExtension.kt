@@ -24,6 +24,9 @@ fun <T> Flowable<T>.toState(tag: String): Flowable<State<T>> {
     }
 }
 
+fun defaultErrorHandler(tag: String): (Throwable) -> Unit =
+    { e -> Log.e(tag, e.message.toString()) }
+
 fun Currencies.toCurrenciesEntity(): CurrenciesEntity =
     CurrenciesEntity(base = this.base, date = this.date, rates = this.rates)
 
