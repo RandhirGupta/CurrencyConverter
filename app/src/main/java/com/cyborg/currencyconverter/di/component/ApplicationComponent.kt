@@ -4,6 +4,7 @@ import android.app.Application
 import com.cyborg.currencyconverter.CurrencyConverterApplication
 import com.cyborg.currencyconverter.di.*
 import com.cyborg.currencyconverter.di.builder.ActivityBuilder
+import com.cyborg.currencyconverter.di.builder.FragmentBuilder
 import com.cyborg.currencyconverter.di.module.ViewModelModule
 import dagger.BindsInstance
 import dagger.Component
@@ -20,7 +21,8 @@ import javax.inject.Singleton
         UseCaseModule::class,
         RepositoryModule::class,
         ViewModelModule::class,
-        ActivityBuilder::class]
+        ActivityBuilder::class,
+        FragmentBuilder::class]
 )
 interface ApplicationComponent : AndroidInjector<CurrencyConverterApplication> {
 

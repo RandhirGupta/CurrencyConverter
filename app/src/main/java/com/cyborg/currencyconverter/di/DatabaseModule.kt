@@ -1,6 +1,7 @@
 package com.cyborg.currencyconverter.di
 
 import android.content.Context
+import com.cyborg.currencyconverter.data.executor.BaseSchedulerProvider
 import com.cyborg.currencyconverter.data.local.CurrenciesDatabase
 import com.cyborg.currencyconverter.data.local.LocalSource
 import com.cyborg.currencyconverter.data.local.LocalSourceImpl
@@ -19,7 +20,10 @@ class DatabaseModule {
 
     @Singleton
     @Provides
-    fun provideLocalSource(currenciesDatabase: CurrenciesDatabase): LocalSource {
-        return LocalSourceImpl(currenciesDatabase)
+    fun provideLocalSource(
+        currenciesDatabase: CurrenciesDatabase,
+        schedulerProvider: BaseSchedulerProvider
+    ): LocalSource {
+        return LocalSourceImpl(currenciesDatabase, schedulerProvider)
     }
 }

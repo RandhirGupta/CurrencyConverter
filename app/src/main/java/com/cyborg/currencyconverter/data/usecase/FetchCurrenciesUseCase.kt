@@ -7,6 +7,7 @@ import com.cyborg.currencyconverter.data.model.Currencies
 import com.cyborg.currencyconverter.data.repository.CurrenciesRepository
 import com.cyborg.currencyconverter.presentation.common.toCurrenciesEntity
 import io.reactivex.Flowable
+import io.reactivex.Observer
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -23,9 +24,9 @@ class FetchCurrenciesUseCase @Inject constructor(
             .subscribeOn(schedulerProvider.io())
             .onBackpressureBuffer()
             .observeOn(schedulerProvider.ui()).repeatWhen {
-                Flowable.timer(2, TimeUnit.SECONDS).repeat()
+                Flowable.timer(10, TimeUnit.SECONDS).repeat()
             }.doOnNext {
-                localSource.insertCurrencies(it.toCurrenciesEntity())
+                localSource.insertCurrencies(it.toCurrenciesEntity()).subscribe()
             }
     }
 

@@ -61,4 +61,5 @@ dependencies {
 
     androidTestImplementation(CurrencyConverterConfig.Libs.AndroidTest.testRunner)
     androidTestImplementation(CurrencyConverterConfig.Libs.AndroidTest.espressoCore)
+    implementation("com.facebook.stetho:stetho:1.5.1")
 }
