@@ -18,7 +18,6 @@ class LocalSourceImpl(
         return Completable.fromCallable {
             currenciesDatabase.currenciesDao().insertCurrencies(currenciesEntity)
         }.onErrorComplete {
-            Log.d("NNN", it.localizedMessage)
             true
         }.subscribeOn(schedulerProvider.io())
             .observeOn(schedulerProvider.ui())

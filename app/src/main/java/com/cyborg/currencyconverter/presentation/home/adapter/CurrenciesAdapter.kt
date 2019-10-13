@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.cyborg.currencyconverter.databinding.CurrenciesItemLayoutBinding
 import com.cyborg.currencyconverter.presentation.common.CurrencyState
 import com.cyborg.currencyconverter.presentation.common.getConvertedCurrenciesRates
@@ -68,7 +70,9 @@ class CurrenciesAdapter(private val currencyState: CurrencyState) :
                 "drawable", itemView.context.packageName
             )
 
-            binding.countryFlagIv.setImageResource(drawable)
+            Glide.with(itemView.context).load(drawable).apply(RequestOptions.circleCropTransform())
+                .into(binding.countryFlagIv)
+
             addTextWatcher(binding.currencyRatesEt, currency)
         }
 

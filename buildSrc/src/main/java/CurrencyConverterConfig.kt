@@ -49,6 +49,7 @@ object CurrencyConverterConfig {
         object Misc {
             private const val retrofitVersion = "2.4.0"
             private const val okHttpVersion = "3.11.0"
+            private const val glideVersion = "4.8.0"
 
             const val retrofit = "com.squareup.retrofit2:retrofit:$retrofitVersion"
             const val retrofitMock = "com.squareup.retrofit2:retrofit-mock:$retrofitVersion"
@@ -57,6 +58,7 @@ object CurrencyConverterConfig {
             const val rxRetrofitAdapter = "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
             const val okHttpInterceptor = "com.squareup.okhttp3:logging-interceptor:$okHttpVersion"
             const val retrofitAdapter = "com.squareup.retrofit2:adapter-rxjava:2.1.0"
+            const val glide = "com.github.bumptech.glide:glide:$glideVersion"
         }
 
         object Test {

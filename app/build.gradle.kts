@@ -49,6 +49,7 @@ dependencies {
     implementation(CurrencyConverterConfig.Libs.Misc.rxRetrofitAdapter)
     implementation(CurrencyConverterConfig.Libs.Misc.okHttpInterceptor)
     implementation(CurrencyConverterConfig.Libs.Misc.retrofitAdapter)
+    implementation(CurrencyConverterConfig.Libs.Misc.glide)
 
     kapt(CurrencyConverterConfig.Libs.Dagger.daggerCompiler)
     kapt(CurrencyConverterConfig.Libs.Dagger.daggerAndroidCompiler)
