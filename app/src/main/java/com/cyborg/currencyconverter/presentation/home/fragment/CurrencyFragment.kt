@@ -1,7 +1,6 @@
 package com.cyborg.currencyconverter.presentation.home.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -51,18 +50,18 @@ class CurrencyFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initAdapter()
         getCurrenciesFromLocal()
     }
 
     private fun getCurrenciesFromLocal() {
         mCurrencyViewModel?.currencies?.observe(this, Observer {
-            Log.d("NNN", it.date)
-            initAdapter(it.rates)
+            mCurrenciesAdapter.setCurrencyRates(it.rates)
         })
     }
 
-    private fun initAdapter(currencyRates: HashMap<String, Double>) {
-        mCurrenciesAdapter = CurrenciesAdapter(currencyRates)
+    private fun initAdapter() {
+        mCurrenciesAdapter = CurrenciesAdapter()
         mCurrencyFragmentBinding.currenciesRv.adapter = mCurrenciesAdapter
     }
 }

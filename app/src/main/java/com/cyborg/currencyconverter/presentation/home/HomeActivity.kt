@@ -48,5 +48,6 @@ class HomeActivity : BaseActivity() {
     private fun initViewPager() {
         val currencyViewPagerAdapter = CurrencyViewPagerAdapter(supportFragmentManager)
         mHomeActivityBinding.currencyViewPager.adapter = currencyViewPagerAdapter
+        mHomeActivityBinding.currencyTabLayout.setupWithViewPager(mHomeActivityBinding.currencyViewPager)
     }
 }

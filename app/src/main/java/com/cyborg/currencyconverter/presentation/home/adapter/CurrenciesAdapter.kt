@@ -8,11 +8,14 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class CurrenciesAdapter(private var currencyRates: Map<String, Double>) :
-    RecyclerView.Adapter<CurrenciesAdapter.CurrenciesViewHolder>() {
+class CurrenciesAdapter : RecyclerView.Adapter<CurrenciesAdapter.CurrenciesViewHolder>() {
 
-    private var mCurrenciesList: List<Map.Entry<String, Double>> =
-        ArrayList<Map.Entry<String, Double>>(currencyRates.entries)
+    private var mCurrenciesList: List<Map.Entry<String, Double>> = ArrayList()
+
+    fun setCurrencyRates(currencyRates: Map<String, Double>) {
+        mCurrenciesList = ArrayList<Map.Entry<String, Double>>(currencyRates.entries)
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CurrenciesViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)

@@ -8,11 +8,16 @@ import com.cyborg.currencyconverter.presentation.home.fragment.CurrencyFragment
 class CurrencyViewPagerAdapter(fragmentManager: FragmentManager) :
     FragmentPagerAdapter(fragmentManager) {
 
+    private val tabTitles = arrayOf("All Rates", "Converter")
     override fun getCount(): Int {
         return 2
     }
 
     override fun getItem(position: Int): Fragment {
         return CurrencyFragment()
+    }
+
+    override fun getPageTitle(position: Int): CharSequence? {
+        return tabTitles[position]
     }
 }

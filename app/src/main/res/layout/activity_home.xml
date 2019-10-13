@@ -11,8 +11,10 @@
             android:id="@+id/currencyTabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/black"
-            app:tabTextColor="@android:color/white" />
+            android:background="@android:color/white"
+            app:tabIndicatorColor="@color/black_030303"
+            app:tabSelectedTextColor="@color/black_030303"
+            app:tabTextColor="@color/grey_868484" />
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/currencyViewPager"
