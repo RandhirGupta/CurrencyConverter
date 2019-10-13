@@ -19,7 +19,7 @@ import kotlin.collections.ArrayList
 class CurrenciesAdapter(private val currencyState: CurrencyState) :
     RecyclerView.Adapter<CurrenciesAdapter.CurrenciesViewHolder>() {
 
-    private var mCurrenciesList: List<Map.Entry<String, Double>> = ArrayList()
+    private var mCurrenciesList: MutableList<Map.Entry<String, Double>> = ArrayList()
     private lateinit var mCurrenciesRates: MutableMap<String, Double>
 
     fun setCurrencyBaseRates(currencyRates: Map<String, Double>) {
@@ -27,7 +27,7 @@ class CurrenciesAdapter(private val currencyState: CurrencyState) :
     }
 
     fun setCurrencyRates(currencyRates: Map<String, Double>) {
-        mCurrenciesList = ArrayList<Map.Entry<String, Double>>(currencyRates.entries)
+        mCurrenciesList = ArrayList(currencyRates.entries)
         notifyDataSetChanged()
     }
 
@@ -42,7 +42,7 @@ class CurrenciesAdapter(private val currencyState: CurrencyState) :
     override fun onBindViewHolder(holder: CurrenciesViewHolder, position: Int) {
         val currency = mCurrenciesList[position]
 
-        holder.bindView(currency, currencyState)
+        holder.bindView(currency, currencyState, position)
     }
 
     override fun getItemCount(): Int = mCurrenciesList.size
@@ -52,13 +52,25 @@ class CurrenciesAdapter(private val currencyState: CurrencyState) :
 
         private var textChangeWatcher: TextChangeWatcher? = null
 
-        fun bindView(currency: Map.Entry<String, Double>, currencyState: CurrencyState) {
+        fun bindView(
+            currency: Map.Entry<String, Double>,
+            currencyState: CurrencyState,
+            position: Int
+        ) {
 
             removeTextWatcher(binding.currencyRatesEt)
 
             when (currencyState) {
                 CurrencyState.RATES -> binding.currencyRatesEt.isEnabled = false
-                CurrencyState.CURRENCY_CONVERSION -> binding.currencyRatesEt.isEnabled = true
+                CurrencyState.CURRENCY_CONVERSION -> {
+                    binding.currencyRatesEt.isEnabled = position == 0
+
+                    itemView.setOnClickListener {
+                        mCurrenciesList.remove(currency)
+                        mCurrenciesList.add(0, currency)
+                        notifyDataSetChanged()
+                    }
+                }
             }
 
             binding.currencyRatesEt.setText(currency.value.toString())
