@@ -1,7 +1,8 @@
 package com.cyborg.currencyconverter.presentation.home
 
 import android.os.Bundle
-import android.util.Log
+import android.view.View
+import android.view.animation.AnimationUtils
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -23,7 +24,7 @@ class HomeActivity : BaseActivity() {
         ViewModelProviders.of(this, mViewModelFactory).get(HomeActivityViewModel::class.java)
     }
 
-    lateinit var mHomeActivityBinding: ActivityHomeBinding
+    private lateinit var mHomeActivityBinding: ActivityHomeBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,9 +39,9 @@ class HomeActivity : BaseActivity() {
     private fun observeCurrencies() {
         mHomeActivityViewModel.currencies.observe(this, Observer {
             when (it) {
-                is State.Loading -> Log.d("NNN", "loading")
-                is State.Error -> Log.d("NNN", "error")
-                is State.Success -> Log.d("NNN", it.data.rates.toString())
+                is State.Loading -> showLoadingView()
+                is State.Error -> showErrorView()
+                is State.Success -> showSuccessView()
             }
         })
     }
@@ -49,5 +50,33 @@ class HomeActivity : BaseActivity() {
         val currencyViewPagerAdapter = CurrencyViewPagerAdapter(supportFragmentManager)
         mHomeActivityBinding.currencyViewPager.adapter = currencyViewPagerAdapter
         mHomeActivityBinding.currencyTabLayout.setupWithViewPager(mHomeActivityBinding.currencyViewPager)
+    }
+
+    private fun startRotatingImage() {
+        val startRotateAnimation = AnimationUtils.loadAnimation(this, R.anim.linear_interpolator)
+        mHomeActivityBinding.loadingViewPb.startAnimation(startRotateAnimation)
+    }
+
+    private fun showLoadingView() {
+        startRotatingImage()
+        mHomeActivityBinding.loadingView.visibility = View.VISIBLE
+        mHomeActivityBinding.errorView.visibility = View.GONE
+        mHomeActivityBinding.currencyTabView.visibility = View.GONE
+    }
+
+    private fun showErrorView() {
+        mHomeActivityBinding.loadingView.visibility = View.GONE
+        mHomeActivityBinding.errorView.visibility = View.VISIBLE
+        mHomeActivityBinding.currencyTabView.visibility = View.GONE
+
+        mHomeActivityBinding.retryButton.setOnClickListener {
+            observeCurrencies()
+        }
+    }
+
+    private fun showSuccessView() {
+        mHomeActivityBinding.loadingView.visibility = View.GONE
+        mHomeActivityBinding.errorView.visibility = View.GONE
+        mHomeActivityBinding.currencyTabView.visibility = View.VISIBLE
     }
 }
