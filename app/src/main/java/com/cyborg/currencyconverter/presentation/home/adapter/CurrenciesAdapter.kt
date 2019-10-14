@@ -47,16 +47,18 @@ class CurrenciesAdapter(private val currencyState: CurrencyState) :
 
     override fun getItemCount(): Int = mCurrenciesList.size
 
-    inner class CurrenciesViewHolder(var binding: CurrenciesItemLayoutBinding) :
+    inner class CurrenciesViewHolder(private var binding: CurrenciesItemLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         private var textChangeWatcher: TextChangeWatcher? = null
-
+        private lateinit var currency: Map.Entry<String, Double>
         fun bindView(
             currency: Map.Entry<String, Double>,
             currencyState: CurrencyState,
             position: Int
         ) {
+
+            this.currency = currency
 
             removeTextWatcher(binding.currencyRatesEt)
 
@@ -85,15 +87,14 @@ class CurrenciesAdapter(private val currencyState: CurrencyState) :
             Glide.with(itemView.context).load(drawable).apply(RequestOptions.circleCropTransform())
                 .into(binding.countryFlagIv)
 
-            addTextWatcher(binding.currencyRatesEt, currency)
+            addTextWatcher(binding.currencyRatesEt)
         }
 
         private fun addTextWatcher(
-            editText: AppCompatEditText,
-            currency: Map.Entry<String, Double>
+            editText: AppCompatEditText
         ) {
             if (textChangeWatcher == null) {
-                textChangeWatcher = TextChangeWatcher(currency)
+                textChangeWatcher = TextChangeWatcher()
             }
             editText.addTextChangedListener(textChangeWatcher)
         }
@@ -104,7 +105,7 @@ class CurrenciesAdapter(private val currencyState: CurrencyState) :
             }
         }
 
-        inner class TextChangeWatcher(private val currency: Map.Entry<String, Double>) :
+        inner class TextChangeWatcher :
             TextWatcher {
 
             private var mCountDownTimer: CountDownTimer? = null
@@ -125,19 +126,15 @@ class CurrenciesAdapter(private val currencyState: CurrencyState) :
 
                 mCountDownTimer?.cancel()
 
-                mCountDownTimer = object : CountDownTimer(500, 100) {
-                    override fun onTick(millisUntilFinished: Long) {}
+                mCountDownTimer = object : CountDownTimer(2000, 100) {
+                    override fun onTick(millisUntilFinished: Long) = Unit
 
                     override fun onFinish() {
-                        val baseCurrencyValue = mCurrenciesRates[currency.key]
-                        baseCurrencyValue?.let {
-                            getConvertedCurrenciesRates(
-                                mCurrenciesRates,
-                                enteredValue,
-                                it,
-                                currency.key
-                            )
-                        }?.let {
+                        getConvertedCurrenciesRates(
+                            mCurrenciesRates,
+                            enteredValue,
+                            currency.key
+                        ).let {
                             setCurrencyRates(
                                 it
                             )

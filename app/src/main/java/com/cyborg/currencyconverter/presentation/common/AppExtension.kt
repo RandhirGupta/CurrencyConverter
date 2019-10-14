@@ -33,14 +33,22 @@ fun Currencies.toCurrenciesEntity(): CurrenciesEntity =
 fun getConvertedCurrenciesRates(
     currencyRates: MutableMap<String, Double>,
     amountToBeConverted: Double,
-    baseCurrencyValue: Double, baseCurrencyKey: String
+    baseCurrencyKey: String
 ): Map<String, Double> {
+
+    val convertedCurrencies: MutableMap<String, Double> = HashMap()
+
     for ((key, value) in currencyRates) {
-        if (key != baseCurrencyKey) {
-            currencyRates[key] = convertCurrency(baseCurrencyValue, value, amountToBeConverted)
+        val baseCurrencyValue = currencyRates[baseCurrencyKey]!!
+        if (key == baseCurrencyKey) {
+            convertedCurrencies[key] = amountToBeConverted
+        } else {
+            convertedCurrencies[key] =
+                convertCurrency(baseCurrencyValue, value, amountToBeConverted)
         }
     }
-    return currencyRates
+
+    return convertedCurrencies
 }
 
 fun convertCurrency(

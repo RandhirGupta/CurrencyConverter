@@ -30,6 +30,7 @@ class CurrencyFragment : BaseFragment() {
     private lateinit var mCurrenciesAdapter: CurrenciesAdapter
 
     private var mCurrencyState: CurrencyState = CurrencyState.RATES
+    private var isConverterAdapterLoaded: Boolean = false
 
     companion object {
 
@@ -99,8 +100,11 @@ class CurrencyFragment : BaseFragment() {
         mCurrencyViewModel?.getSingleLiveEventCurrencies()
 
         mCurrencyViewModel?.singleEventCurrencies?.observe(this, Observer {
-            mCurrenciesAdapter.setCurrencyBaseRates(it.rates)
-            mCurrenciesAdapter.setCurrencyRates(it.rates)
+            if (!isConverterAdapterLoaded) {
+                isConverterAdapterLoaded = true
+                mCurrenciesAdapter.setCurrencyBaseRates(it.rates)
+                mCurrenciesAdapter.setCurrencyRates(it.rates)
+            }
         })
     }
 
