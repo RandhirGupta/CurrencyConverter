@@ -52,6 +52,7 @@ class CurrenciesAdapter(private val currencyState: CurrencyState) :
 
         private var textChangeWatcher: TextChangeWatcher? = null
         private lateinit var currency: Map.Entry<String, Double>
+
         fun bindView(
             currency: Map.Entry<String, Double>,
             currencyState: CurrencyState,
@@ -77,7 +78,8 @@ class CurrenciesAdapter(private val currencyState: CurrencyState) :
 
             binding.currencyRatesEt.setText(currency.value.toString())
             binding.currencyTitleTv.text = currency.key
-            binding.currencyDescTv.text = currency.key
+
+            binding.currencyDescTv.text = java.util.Currency.getInstance(currency.key).displayName
 
             val drawable = itemView.context.resources.getIdentifier(
                 "flag_" + currency.key.toLowerCase(Locale.ENGLISH),
