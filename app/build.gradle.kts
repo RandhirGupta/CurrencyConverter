@@ -4,12 +4,23 @@ android {
         applicationId = "com.cyborg.currencyconverter"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
-
+    
     buildTypes {
         getByName("release") {
             isMinifyEnabled = true
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
+            signingConfig = signingConfigs.create("release")
         }
+    }
+
+    val isRunningOnTravis = System.getenv("CI") == "true"
+
+    if (isRunningOnTravis) {
+        // configuring keystore
+        signingConfigs.getByName("release").storeFile = file("../currency_converter.keystore")
+        signingConfigs.getByName("release").storePassword = System.getenv("keystore_password")
+        signingConfigs.getByName("release").keyAlias = System.getenv("keystore_alias")
+        signingConfigs.getByName("release").keyPassword = System.getenv("keystore_alias_password")
     }
 
     dataBinding {

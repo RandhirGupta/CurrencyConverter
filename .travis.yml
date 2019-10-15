@@ -1,0 +1,34 @@
+language: android
+jdk: oraclejdk8
+env:
+  global:
+  - ANDROID_API=29
+android:
+  components:
+  - tools
+  - tools
+  - platform-tools
+  - build-tools-29.0.3
+  - android-${ANDROID_API}
+  - extra-android-m2repository
+  licenses:
+  - android-sdk-license-.+
+before_install:
+- openssl aes-256-cbc -K $encrypted_7959878c57e1_key -iv $encrypted_7959878c57e1_iv
+  -in currency_converter.jks.enc -out currency_converter.jks -d
+- yes | sdkmanager "platforms;android-29"
+before_cache: "-rm -f $HOME/.gradle/caches/modules-2/modules-2.lock -rm -fr $HOME/.gradle/caches/*/plugin-resolution/"
+cache:
+  directories:
+  - "$HOME/.gradle/caches/"
+  - "$HOME/.gradle/wrapper/"
+  - "$HOME/.android/build-cache"
+script:
+- "./gradlew assembleRelease"
+deploy:
+  provider: releases
+  api_key:
+    secure: JdO80PwqCSASxOGGfkM5U4l5KJ5/y9EKZ0XsM2YC2va88IRzEv+E0MPtiU9yPCbK4sKAmbgKf4cBUmZ13/MkSZAp1PlCddxuTCQ+HmzU8rxrSKjdlHxCoKjpFzw4tR2w+aXisovEMXBOBEV2XUUpPVb58d/MP5KzBnFT+QShOR+dlGqdxiUefHYTXfqd6grAEGnFAAqt0dYHtM0N3Trx2Pm356XJMQmOmJJnKwsxkZlflYAZTtmC33luIajgBwoX/o/MTZnaExL5Ppa56mKucrSJ0jrZIh/gaYRh/izCjCK3dyZ4zZZQDXQ28aS0wG52IOdz4/jh7/Pj9eZr/l6Z73hADBjjAOcPHbwe7jNQh6JHPxmkeYabZ4efpbagPTb5xCSFLFmcCVcNvRQjlACNDXLiVLTnphn7CnZIYN8bT32b0zxCwe+eEcvUTwt8ORcN8nNnSmYEXoYEybOkO8poxR8RTLunmlSeRSrO5CFQIYwAy8LNTce0MTQpCeeVjPMduohWBK0W1G+BEocHScc+BuhMv8YYYYPfBfHS6Ks7YgXK2JkIZ0OOtxjmYKIKLBT2e7jJ+Y+3GY51kPIYzXx6eQM1c9iVmtbTlXlUkjpJa6o7zBnjOsOSvD4NFNGB9q4t1evJZ9bYbYnl3MmXxSHxomtXmd+H2E5kSW3Vzv7gdkE=
+  file: "/home/travis/build/RandhirGupta/CurrencyConverter/app/build/outputs/apk/release/*"
+  on:
+    repo: RandhirGupta/CurrencyConverter
