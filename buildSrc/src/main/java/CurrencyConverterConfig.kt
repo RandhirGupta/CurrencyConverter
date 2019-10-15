@@ -67,7 +67,7 @@ object CurrencyConverterConfig {
             object Mockito {
                 const val mocito = "org.mockito:mockito-core:2.19.0"
                 const val nhaarmanMock = "com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0"
-
+                const val mocitoInline = "org.mockito:mockito-inline:2.13.0"
             }
         }
 

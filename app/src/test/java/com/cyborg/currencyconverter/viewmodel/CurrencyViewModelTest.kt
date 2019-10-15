@@ -37,19 +37,38 @@ class CurrencyViewModelTest {
     }
 
     @Test
-    fun getCurrenciesFromLocalThenStateSuccess() {
-        val currencies = CurrenciesEntity(base = "EUR", rates = hashMapOf(), date = toString())
+    fun getCurrenciesFromLocal() {
+        val currencyEntity = CurrenciesEntity(base = "EUR", rates = hashMapOf(), date = toString())
         val observer: Observer<CurrenciesEntity> = mock()
 
         whenever(fetchCurrenciesUseCase.getCurrenciesFromLocal("EUR")).doReturn(
             Flowable.just(
-                currencies
+                currencyEntity
             )
         )
 
         currencyViewModel.currencies.observeForever(observer)
 
         verify(fetchCurrenciesUseCase).getCurrenciesFromLocal("EUR")
-        verify(observer).onChanged(currencies)
+        verify(observer).onChanged(currencyEntity)
+    }
+
+    @Test
+    fun getSingleEventCurrenciesFromLocal() {
+
+        val currencyEntity = CurrenciesEntity(base = "EUR", rates = hashMapOf(), date = toString())
+        val observer: Observer<CurrenciesEntity> = mock()
+
+        whenever(fetchCurrenciesUseCase.getCurrenciesFromLocal("EUR")).doReturn(
+            Flowable.just(
+                currencyEntity
+            )
+        )
+
+        currencyViewModel.getSingleLiveEventCurrencies()
+        currencyViewModel.singleEventCurrencies.observeForever(observer)
+
+        verify(fetchCurrenciesUseCase).getCurrenciesFromLocal("EUR")
+        verify(observer).onChanged(currencyEntity)
     }
 }

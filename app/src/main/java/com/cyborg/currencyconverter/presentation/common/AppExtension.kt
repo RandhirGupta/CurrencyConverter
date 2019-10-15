@@ -10,16 +10,16 @@ import org.reactivestreams.Publisher
 
 fun <T> Publisher<T>.toLiveData() = LiveDataReactiveStreams.fromPublisher(this) as LiveData<T>
 
-fun <T> Flowable<T>.toState(tag: String): Flowable<State<T>> {
+fun <T> Flowable<T>.toState(): Flowable<State<T>> {
     return compose { item ->
         item
             .map { State.success(it) }
             .startWith(State.loading())
             .onErrorReturn { e ->
-                Log.d(tag, e.toString()); State.error(
-                e.message ?: "Unknown Error",
-                e
-            )
+                State.error(
+                    e.message ?: "Unknown Error",
+                    e
+                )
             }
     }
 }

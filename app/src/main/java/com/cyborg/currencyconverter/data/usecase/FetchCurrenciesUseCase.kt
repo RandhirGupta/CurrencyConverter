@@ -8,6 +8,7 @@ import com.cyborg.currencyconverter.data.repository.CurrenciesRepository
 import com.cyborg.currencyconverter.presentation.common.toCurrenciesEntity
 import io.reactivex.Flowable
 import io.reactivex.Observer
+import io.reactivex.observers.DisposableObserver
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton

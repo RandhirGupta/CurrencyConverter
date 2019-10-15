@@ -2,7 +2,6 @@ package com.cyborg.currencyconverter.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
-import com.cyborg.currencyconverter.data.entity.CurrenciesEntity
 import com.cyborg.currencyconverter.data.model.Currencies
 import com.cyborg.currencyconverter.data.usecase.FetchCurrenciesUseCase
 import com.cyborg.currencyconverter.presentation.common.State
@@ -12,6 +11,7 @@ import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import io.reactivex.Flowable
+import io.reactivex.ObservableEmitter
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test

@@ -13,7 +13,7 @@ class HomeActivityViewModel @Inject constructor(private val fetchCurrenciesUseCa
     BaseViewModel() {
 
     val currencies: LiveData<State<Currencies>> by lazy {
-        fetchCurrenciesUseCase.getCurrenciesFromNetwork("EUR").toState("Home Activity View Model")
+        fetchCurrenciesUseCase.getCurrenciesFromNetwork("EUR").toState()
             .toLiveData()
     }
 }

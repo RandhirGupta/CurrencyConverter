@@ -25,7 +25,10 @@ class CurrencyViewModel @Inject constructor(private val fetchCurrenciesUseCase: 
         fetchCurrenciesUseCase.getCurrenciesFromLocal("EUR")
             .doOnNext {
                 singleEventCurrencies.postValue(it)
-            }.subscribeBy(onError = defaultErrorHandler("Currency View Model"))
+            }.doOnError { e ->
+                singleEventCurrencies.postValue(null)
+            }
+            .subscribeBy(onError = defaultErrorHandler("Currency View Model"))
             .addTo(compositeDisposable)
 
     }

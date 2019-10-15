@@ -61,9 +61,9 @@ dependencies {
     testImplementation(CurrencyConverterConfig.Libs.Test.Mockito.nhaarmanMock)
     testImplementation(CurrencyConverterConfig.Libs.Misc.retrofitMock)
     testImplementation(CurrencyConverterConfig.Libs.AndroidTest.archCoreTest)
+    testImplementation(CurrencyConverterConfig.Libs.Test.Mockito.mocitoInline)
 
     androidTestImplementation(CurrencyConverterConfig.Libs.AndroidTest.testRunner)
     androidTestImplementation(CurrencyConverterConfig.Libs.AndroidTest.espressoCore)
     androidTestImplementation(CurrencyConverterConfig.Libs.AndroidTest.testRules)
-    testImplementation("org.mockito:mockito-inline:2.13.0")
 }
