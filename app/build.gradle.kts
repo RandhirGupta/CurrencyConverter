@@ -57,10 +57,13 @@ dependencies {
 
     testImplementation(CurrencyConverterConfig.Libs.Test.junit)
     testImplementation(CurrencyConverterConfig.Libs.Arch.roomTestHelper)
+    testImplementation(CurrencyConverterConfig.Libs.Test.Mockito.mocito)
     testImplementation(CurrencyConverterConfig.Libs.Test.Mockito.nhaarmanMock)
     testImplementation(CurrencyConverterConfig.Libs.Misc.retrofitMock)
+    testImplementation(CurrencyConverterConfig.Libs.AndroidTest.archCoreTest)
 
     androidTestImplementation(CurrencyConverterConfig.Libs.AndroidTest.testRunner)
     androidTestImplementation(CurrencyConverterConfig.Libs.AndroidTest.espressoCore)
-    implementation("com.facebook.stetho:stetho:1.5.1")
+    androidTestImplementation(CurrencyConverterConfig.Libs.AndroidTest.testRules)
+    testImplementation("org.mockito:mockito-inline:2.13.0")
 }

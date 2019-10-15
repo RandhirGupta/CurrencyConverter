@@ -24,7 +24,7 @@ class FetchCurrenciesUseCase @Inject constructor(
             .subscribeOn(schedulerProvider.io())
             .onBackpressureBuffer()
             .observeOn(schedulerProvider.ui()).repeatWhen {
-                Flowable.timer(5, TimeUnit.SECONDS).repeat()
+                Flowable.timer(500, TimeUnit.SECONDS).repeat()
             }.doOnNext {
                 localSource.insertCurrencies(it.toCurrenciesEntity()).subscribe()
             }

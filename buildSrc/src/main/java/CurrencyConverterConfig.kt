@@ -65,13 +65,19 @@ object CurrencyConverterConfig {
             const val junit = "junit:junit:4.12"
 
             object Mockito {
-                const val nhaarmanMock = "com.nhaarman:mockito-kotlin:1.6.0"
+                const val mocito = "org.mockito:mockito-core:2.19.0"
+                const val nhaarmanMock = "com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0"
+
             }
         }
 
         object AndroidTest {
-            const val testRunner = "androidx.test:runner:1.1.0-alpha3"
-            const val espressoCore = "androidx.test.espresso:espresso-core:3.1.0-alpha3"
+
+            const val testRunner = "androidx.test:runner:1.1.0"
+            const val espressoCore = "androidx.test.espresso:espresso-core:3.1.0"
+            const val testRules = "androidx.test:rules:1.1.0"
+            const val archCoreTest = "android.arch.core:core-testing:1.1.1"
+
         }
 
         object Dagger {
