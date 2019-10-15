@@ -29,7 +29,7 @@ class CurrencyFragment : BaseFragment() {
 
     private lateinit var mCurrenciesAdapter: CurrenciesAdapter
 
-    private var mCurrencyState: CurrencyState = CurrencyState.RATES
+    public var mCurrencyState: CurrencyState = CurrencyState.RATES
     private var isConverterAdapterLoaded: Boolean = false
 
     companion object {

@@ -25,6 +25,7 @@ class HomeActivity : BaseActivity() {
     }
 
     private lateinit var mHomeActivityBinding: ActivityHomeBinding
+    lateinit var mCurrencyViewPagerAdapter: CurrencyViewPagerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,8 +48,8 @@ class HomeActivity : BaseActivity() {
     }
 
     private fun initViewPager() {
-        val currencyViewPagerAdapter = CurrencyViewPagerAdapter(supportFragmentManager)
-        mHomeActivityBinding.currencyViewPager.adapter = currencyViewPagerAdapter
+        mCurrencyViewPagerAdapter = CurrencyViewPagerAdapter(supportFragmentManager)
+        mHomeActivityBinding.currencyViewPager.adapter = mCurrencyViewPagerAdapter
         mHomeActivityBinding.currencyTabLayout.setupWithViewPager(mHomeActivityBinding.currencyViewPager)
     }
 
