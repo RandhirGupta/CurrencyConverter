@@ -37,9 +37,9 @@ fun getConvertedCurrenciesRates(
 ): Map<String, Double> {
 
     val convertedCurrencies: MutableMap<String, Double> = HashMap()
+    val baseCurrencyValue = currencyRates[baseCurrencyKey]!!
 
     for ((key, value) in currencyRates) {
-        val baseCurrencyValue = currencyRates[baseCurrencyKey]!!
         if (key == baseCurrencyKey) {
             convertedCurrencies[key] = amountToBeConverted
         } else {

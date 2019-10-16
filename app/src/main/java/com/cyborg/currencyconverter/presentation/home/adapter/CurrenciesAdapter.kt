@@ -19,16 +19,16 @@ import kotlin.collections.ArrayList
 class CurrenciesAdapter(private val currencyState: CurrencyState) :
     RecyclerView.Adapter<CurrenciesAdapter.CurrenciesViewHolder>() {
 
-    private var mCurrenciesList: MutableList<Map.Entry<String, Double>> = ArrayList()
+    private var mCurrenciesList: MutableList<String> = ArrayList()
     private lateinit var mCurrenciesRates: MutableMap<String, Double>
 
     fun setCurrencyBaseRates(currencyRates: Map<String, Double>) {
-        this.mCurrenciesRates = currencyRates as MutableMap<String, Double>
+        mCurrenciesRates = currencyRates as MutableMap<String, Double>
+        notifyDataSetChanged()
     }
 
-    fun setCurrencyRates(currencyRates: Map<String, Double>) {
-        mCurrenciesList = ArrayList(currencyRates.entries)
-        notifyDataSetChanged()
+    fun setAdapterData(currencyRates: Map<String, Double>) {
+        mCurrenciesList = ArrayList(currencyRates.keys)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CurrenciesViewHolder {
@@ -40,9 +40,10 @@ class CurrenciesAdapter(private val currencyState: CurrencyState) :
     }
 
     override fun onBindViewHolder(holder: CurrenciesViewHolder, position: Int) {
-        val currency = mCurrenciesList[position]
+        val currencyKey = mCurrenciesList[position]
+        val currencyValue = mCurrenciesRates[currencyKey]
 
-        holder.bindView(currency, currencyState, position)
+        currencyValue?.let { holder.bindView(currencyKey, it, currencyState, position) }
     }
 
     override fun getItemCount(): Int = mCurrenciesList.size
@@ -51,15 +52,15 @@ class CurrenciesAdapter(private val currencyState: CurrencyState) :
         RecyclerView.ViewHolder(binding.root) {
 
         private var textChangeWatcher: TextChangeWatcher? = null
-        private lateinit var currency: Map.Entry<String, Double>
+        private lateinit var currencyKey: String
 
         fun bindView(
-            currency: Map.Entry<String, Double>,
+            currencyKey: String, currencyValue: Double,
             currencyState: CurrencyState,
             position: Int
         ) {
 
-            this.currency = currency
+            this.currencyKey = currencyKey
 
             removeTextWatcher(binding.currencyRatesEt)
 
@@ -69,20 +70,20 @@ class CurrenciesAdapter(private val currencyState: CurrencyState) :
                     binding.currencyRatesEt.isEnabled = position == 0
 
                     itemView.setOnClickListener {
-                        mCurrenciesList.remove(currency)
-                        mCurrenciesList.add(0, currency)
+                        mCurrenciesList.remove(currencyKey)
+                        mCurrenciesList.add(0, currencyKey)
                         notifyDataSetChanged()
                     }
                 }
             }
 
-            binding.currencyRatesEt.setText(currency.value.toString())
-            binding.currencyTitleTv.text = currency.key
+            binding.currencyRatesEt.setText(currencyValue.toString())
+            binding.currencyTitleTv.text = currencyKey
 
-            binding.currencyDescTv.text = java.util.Currency.getInstance(currency.key).displayName
+            binding.currencyDescTv.text = java.util.Currency.getInstance(currencyKey).displayName
 
             val drawable = itemView.context.resources.getIdentifier(
-                "flag_" + currency.key.toLowerCase(Locale.ENGLISH),
+                "flag_" + currencyKey.toLowerCase(Locale.ENGLISH),
                 "drawable", itemView.context.packageName
             )
 
@@ -135,9 +136,9 @@ class CurrenciesAdapter(private val currencyState: CurrencyState) :
                         getConvertedCurrenciesRates(
                             mCurrenciesRates,
                             enteredValue,
-                            currency.key
+                            currencyKey
                         ).let {
-                            setCurrencyRates(
+                            setCurrencyBaseRates(
                                 it
                             )
                         }

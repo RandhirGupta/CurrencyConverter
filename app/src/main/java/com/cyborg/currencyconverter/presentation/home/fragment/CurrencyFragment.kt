@@ -102,16 +102,16 @@ class CurrencyFragment : BaseFragment() {
         mCurrencyViewModel?.singleEventCurrencies?.observe(this, Observer {
             if (!isConverterAdapterLoaded) {
                 isConverterAdapterLoaded = true
+                mCurrenciesAdapter.setAdapterData(it.rates)
                 mCurrenciesAdapter.setCurrencyBaseRates(it.rates)
-                mCurrenciesAdapter.setCurrencyRates(it.rates)
             }
         })
     }
 
     private fun getCurrencyObserver() {
         mCurrencyViewModel?.currencies?.observe(this, Observer {
+            mCurrenciesAdapter.setAdapterData(it.rates)
             mCurrenciesAdapter.setCurrencyBaseRates(it.rates)
-            mCurrenciesAdapter.setCurrencyRates(it.rates)
         })
     }
 }
