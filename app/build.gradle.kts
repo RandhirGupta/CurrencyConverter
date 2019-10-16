@@ -4,12 +4,16 @@ android {
         applicationId = "com.cyborg.currencyconverter"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
-    
+
+    signingConfigs {
+        create("release")
+    }
+
     buildTypes {
         getByName("release") {
             isMinifyEnabled = true
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
-            signingConfig = signingConfigs.create("release")
+            signingConfig = signingConfigs.getByName("release")
         }
     }
 
