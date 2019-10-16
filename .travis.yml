@@ -24,7 +24,7 @@ cache:
     - "$HOME/.gradle/wrapper/"
     - "$HOME/.android/build-cache"
 script:
-  - "./gradlew assembleRelease"
+  - "./gradlew assembleRelease --debug"
 deploy:
   provider: releases
   api_key:
