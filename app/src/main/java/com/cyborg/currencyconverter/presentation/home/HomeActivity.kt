@@ -71,6 +71,7 @@ class HomeActivity : BaseActivity() {
         mHomeActivityBinding.currencyTabView.visibility = View.GONE
 
         mHomeActivityBinding.retryButton.setOnClickListener {
+            mHomeActivityViewModel.currencies.removeObservers(this)
             observeCurrencies()
         }
     }
