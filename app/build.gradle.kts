@@ -17,7 +17,7 @@ android {
 
     if (isRunningOnTravis) {
         // configuring keystore
-        signingConfigs.getByName("release").storeFile = file("../currency_converter.keystore")
+        signingConfigs.getByName("release").storeFile = file("../currency_converter.jks")
         signingConfigs.getByName("release").storePassword = System.getenv("keystore_password")
         signingConfigs.getByName("release").keyAlias = System.getenv("keystore_alias")
         signingConfigs.getByName("release").keyPassword = System.getenv("keystore_alias_password")
